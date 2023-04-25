@@ -24,7 +24,7 @@ void lcdBacklight() {
 }
 //以下为菜单1显示
 void displayConfig1() {
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setFontDirection(0);       //设置显示方向
   u8g2.clearBuffer();             //清除当前Buffer内的内容
   //u8g2.drawXBM(0,0,tbdc_x,tbdc_y,tbdc);//logo图标
@@ -43,9 +43,9 @@ void displayConfig1() {
   u8g2.drawLine(80, 0, 80, 16);
   u8g2.drawLine(62, 16, 62, 64);
   u8g2.setCursor(8, 13);
-  u8g2.print("运行状态");  //标题
+  u8g2.print("Operating");  //标题
   u8g2.setCursor(96, 13);u8g2.print(temperature);u8g2.print("℃");//内部温度
-  u8g2.setFont(u8g2_font_unifont_t_chinese3);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setCursor(16, 31);u8g2.print(voltageInput, 1);u8g2.print("V");//输入电压
   u8g2.setCursor(80, 31);u8g2.print(currentInput, 2);u8g2.print("A");//输入电流
   if (BNC == 0) {u8g2.setCursor(16, 47);u8g2.print(voltageOutput, 1);u8g2.print("V");
@@ -58,7 +58,7 @@ void displayConfig1() {
 
 //一下为菜单2显示
 void displayConfig2() {
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setFontDirection(0);       //设置显示方向
   u8g2.clearBuffer();             //清除当前Buffer内的内容
   //u8g2.drawXBM(0,0,tbdc_x,tbdc_y,tbdc);//logo图标
@@ -77,9 +77,9 @@ void displayConfig2() {
   u8g2.drawLine(80, 0, 80, 16);
   u8g2.drawLine(62, 16, 62, 51);
   u8g2.drawLine(45, 51, 45, 64);
-  u8g2.setCursor(8, 13);u8g2.print("输入状态");  //标题
+  u8g2.setCursor(8, 13);u8g2.print("Input");  //标题
   u8g2.setCursor(96, 13);u8g2.print(temperature);u8g2.print("℃");//内部温度
-  u8g2.setFont(u8g2_font_unifont_t_chinese3);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setCursor(16, 31);u8g2.print(voltageInput, 1);u8g2.print("V");//输入电压
   u8g2.setCursor(80, 31);u8g2.print(currentInput, 2);u8g2.print("A");//输入电流
   u8g2.setCursor(16, 47); u8g2.print(powerInput, 1); u8g2.print("W");//输入功率
@@ -98,7 +98,7 @@ void displayConfig2() {
 }
 //一下为菜单3显示
 void displayConfig3() {
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setFontDirection(0);       //设置显示方向
   u8g2.clearBuffer();             //清除当前Buffer内的内容
   //u8g2.drawXBM(0,0,tbdc_x,tbdc_y,tbdc);//logo图标
@@ -117,9 +117,9 @@ void displayConfig3() {
   u8g2.drawLine(62, 16, 62, 51);
   u8g2.drawLine(45, 51, 45, 64);
   u8g2.setCursor(8, 13);
-  u8g2.print("充电状态");  //标题
+  u8g2.print("charging");  //标题
   u8g2.setCursor(96, 13);u8g2.print(temperature);u8g2.print("℃");//内部温度
-  u8g2.setFont(u8g2_font_unifont_t_chinese3);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setCursor(16, 31);u8g2.print(voltageOutput, 1);u8g2.print("V");//输出电压
   u8g2.setCursor(80, 31);u8g2.print(currentOutput, 2);u8g2.print("A");//输出电流
   u8g2.setCursor(16, 47);u8g2.print(powerOutput, 1);u8g2.print("W"); //输出功率
@@ -138,7 +138,7 @@ void displayConfig3() {
 }
 //一下为菜单4显示
 void displayConfig4() {
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setFontDirection(0);       //设置显示方向
   u8g2.clearBuffer();             //清除当前Buffer内的内容
   //u8g2.drawXBM(0,0,tbdc_x,tbdc_y,tbdc);//logo图标
@@ -152,33 +152,33 @@ void displayConfig4() {
   u8g2.drawLine(80, 0, 80, 16);
   u8g2.drawLine(62, 16, 62, 35);
   u8g2.setCursor(8, 13);
-  u8g2.print("输出状态");  //标题
+  u8g2.print("output");  //标题
   u8g2.setCursor(96, 13);u8g2.print(temperature);u8g2.print("℃");//内部温度
-  u8g2.setFont(u8g2_font_unifont_t_chinese3);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setCursor(16, 31);u8g2.print(voltageOutput, 1);u8g2.print("V");//输出电压
   u8g2.setCursor(80, 31);u8g2.print(loadcurrentOutput, 2);u8g2.print("A");//输出电流
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
-  u8g2.setCursor(8, 56);u8g2.print("Load状态:");
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
+  u8g2.setCursor(8, 56);u8g2.print("LoadState:");
   const char* enableMos2 = "";
-  if (enableMosen == 1) {enableMos2 = "开";}
-  else if (enableMosen == 0) {enableMos2 = "关";} 
+  if (enableMosen == 1) {enableMos2 = "OPEN";}
+  else if (enableMosen == 0) {enableMos2 = "CLOSE";} 
   u8g2.setCursor(90, 56);u8g2.print(enableMos2);
   u8g2.sendBuffer();  //显示当前Buffer内的内容
 }
 //一下为菜单5显示
 void displayConfig5() {
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.clearBuffer();
-  u8g2.setCursor(8, 16);u8g2.print("==设备状态==");
-  u8g2.setCursor(0, 40);u8g2.print("内部温度");u8g2.setCursor(88, 40);u8g2.print(temperature);u8g2.print("℃");
-  u8g2.setCursor(0, 58);u8g2.print("散热状态");u8g2.setCursor(88, 58);if (fanStatus == 1) {u8g2.print("开");} else {u8g2.print("关");}
+  u8g2.setCursor(8, 16);u8g2.print("==device status==");
+  u8g2.setCursor(0, 40);u8g2.print("temperature");u8g2.setCursor(88, 40);u8g2.print(temperature);u8g2.print("℃");
+  u8g2.setCursor(0, 58);u8g2.print("thermal status");u8g2.setCursor(88, 58);if (fanStatus == 1) {u8g2.print("开");} else {u8g2.print("关");}
   u8g2.sendBuffer();
 }
 void displayConfig6() {
-  u8g2.setFont(u8g2_font_5x8_tn);
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);
   u8g2.clearBuffer();
   u8g2.setCursor(8, 12);u8g2.print("==Network=="); 
-  u8g2.setFont(u8g2_font_unifont_t_chinese3);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.setCursor(0, 26);u8g2.print("ssid:");u8g2.setCursor(42, 26);u8g2.print("MPPT");
   u8g2.setCursor(0, 42);u8g2.print("pass:");u8g2.setCursor(42, 42);u8g2.print("12345678");
   u8g2.setCursor(0, 58);u8g2.print(WiFi.localIP());
@@ -186,16 +186,16 @@ void displayConfig6() {
 }
 //一下为菜单7显示
 void displayConfig7() {
-  u8g2.setFont(u8g2_font_5x8_tn);  //设置显示字体
+  u8g2.setFont(u8g2_font_unifont_t_chinese2);  //设置显示字体
   u8g2.clearBuffer(); 
-  u8g2.setCursor(8, 16);u8g2.print("==系统菜单==");
-  u8g2.setCursor(0, 40);u8g2.print(">确认键进入");
+  u8g2.setCursor(8, 16);u8g2.print("==system menu==");
+  u8g2.setCursor(0, 40);u8g2.print(">confirm entry");
   u8g2.sendBuffer();
 }
 void factoryResetMessageLCD() {
   u8g2.clearBuffer();
-  u8g2.setCursor(8, 16);u8g2.print("==工厂复位==");
-  u8g2.setCursor(48, 40);u8g2.print("成功");
+  u8g2.setCursor(8, 16);u8g2.print("==factory reset==");
+  u8g2.setCursor(48, 40);u8g2.print("DONE");
   u8g2.sendBuffer();
   delay(1000);
 }
@@ -236,7 +236,7 @@ void LCD_Menu() {
     if (subMenuPage == 0) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==充电模式==");
+      u8g2.print("==charging mode==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -247,7 +247,7 @@ void LCD_Menu() {
       if (MPPT_Mode == 1) {
         u8g2.print("MPPT同步整流");
       } else {
-        u8g2.print("普通同步整流");
+        u8g2.print("normal同步整流");
       }
       u8g2.sendBuffer();
 
@@ -280,7 +280,7 @@ void LCD_Menu() {
     else if (subMenuPage == 1) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==工作模式==");
+      u8g2.print("==operating mode==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -289,9 +289,9 @@ void LCD_Menu() {
         u8g2.print("=");
       }
       if (output_Mode == 1) {
-        u8g2.print("充电模式");
+        u8g2.print("charging mode");
       } else {
-        u8g2.print("电源模式");
+        u8g2.print("power mode");
       }
       u8g2.sendBuffer();
       //SET MENU - BOOLTYPE
@@ -323,7 +323,7 @@ void LCD_Menu() {
     else if (subMenuPage == 2) {
       u8g2.clearBuffer();
       u8g2.setCursor(4, 16);
-      u8g2.print("=最大电池电压=");
+      u8g2.print("=max battery voltage=");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -392,7 +392,7 @@ void LCD_Menu() {
     else if (subMenuPage == 3) {
       u8g2.clearBuffer();
       u8g2.setCursor(4, 16);
-      u8g2.print("=最小电池电压=");
+      u8g2.print("=min battery voltage=");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -462,7 +462,7 @@ void LCD_Menu() {
     else if (subMenuPage == 4) {
       u8g2.clearBuffer();
       u8g2.setCursor(4, 16);
-      u8g2.print("=充电电流控制=");
+      u8g2.print("=charge current control=");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -531,7 +531,7 @@ void LCD_Menu() {
     else if (subMenuPage == 5) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==输出控制==");
+      u8g2.print("==output control==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -540,11 +540,11 @@ void LCD_Menu() {
         u8g2.print("=");
       }
       if (enableMos == 1) {
-        u8g2.print("开启");
+        u8g2.print("OPEN");
       } else if (enableMos == 0) {
-        u8g2.print("关闭");
+        u8g2.print("CLOSE");
       } else if (enableMos == 2) {
-        u8g2.print("自动");
+        u8g2.print("AUTO");
       }
 
       //SET MENU - BOOLTYPE
@@ -582,7 +582,7 @@ void LCD_Menu() {
     else if (subMenuPage == 6) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==冷却风扇==");
+      u8g2.print("==COOLING==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -591,9 +591,9 @@ void LCD_Menu() {
         u8g2.print("=");
       }
       if (enableFan == 1) {
-        u8g2.print("启用");
+        u8g2.print("OPEN");
       } else {
-        u8g2.print("停止");
+        u8g2.print("CLOSE");
       }
 
       //SET MENU - BOOLTYPE
@@ -626,7 +626,7 @@ void LCD_Menu() {
     else if (subMenuPage == 7) {
       u8g2.clearBuffer();
       u8g2.setCursor(4, 16);
-      u8g2.print("=冷却启动温度=");
+      u8g2.print("=cooling start temp=");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -678,7 +678,7 @@ void LCD_Menu() {
     else if (subMenuPage == 8) {
       u8g2.clearBuffer();
       u8g2.setCursor(4, 16);
-      u8g2.print("=冷却停止温度=");
+      u8g2.print("=cooling stop temp=");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -730,7 +730,7 @@ void LCD_Menu() {
     else if (subMenuPage == 9) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==WIFI状态==");
+      u8g2.print("==WIFI state==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -739,9 +739,9 @@ void LCD_Menu() {
         u8g2.print("=");
       }
       if (enableWiFi == 1) {
-        u8g2.print("开启");
+        u8g2.print("open");
       } else {
-        u8g2.print("关闭");
+        u8g2.print("close");
       }
 
       //SET MENU - BOOLTYPE
@@ -774,7 +774,7 @@ void LCD_Menu() {
     else if (subMenuPage == 10) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==运行模式==");
+      u8g2.print("==operating mode==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -783,9 +783,9 @@ void LCD_Menu() {
         u8g2.print("=");
       }
       if (flashMemLoad == 1) {
-        u8g2.print("自动");
+        u8g2.print("auto");
       } else {
-        u8g2.print("手动");
+        u8g2.print("manual");
       }
 
       //SET MENU - BOOLTYPE
@@ -817,7 +817,7 @@ void LCD_Menu() {
     else if (subMenuPage == 11) {
       u8g2.clearBuffer();
       u8g2.setCursor(8, 16);
-      u8g2.print("==背光时间==");
+      u8g2.print("==backlight time==");
       if (setMenuPage == 1) {
         u8g2.setCursor(0, 40);
         u8g2.print(">");
@@ -922,14 +922,14 @@ void LCD_Menu() {
     else if (subMenuPage == 12) {
       u8g2.clearBuffer();
       if (setMenuPage == 0) {
-        u8g2.setCursor(4, 16);u8g2.print("==工厂复位==");
-        u8g2.setCursor(0, 40);u8g2.print(">按确认键选择");
+        u8g2.setCursor(4, 16);u8g2.print("==factory reset==");
+        u8g2.setCursor(0, 40);u8g2.print(">press confirm");
       } else {
         if (confirmationMenu == 0) {
-          u8g2.setCursor(28, 16);u8g2.print("您确定吗?");
+          u8g2.setCursor(28, 16);u8g2.print("are you sure?");
           u8g2.setCursor(0, 40);u8g2.print("  >NO      YES  ");
         } else {
-          u8g2.setCursor(28, 16);u8g2.print("您确定吗?");
+          u8g2.setCursor(28, 16);u8g2.print("are you sure?");
           u8g2.setCursor(0, 40);u8g2.print("   NO     >YES  ");
         }
         if (digitalRead(buttonRight) == 1 || digitalRead(buttonLeft) == 1) {
@@ -962,7 +962,7 @@ void LCD_Menu() {
     else if (subMenuPage == 13) {
       u8g2.clearBuffer();
       if (setMenuPage == 0) {
-        u8g2.setCursor(8, 16);u8g2.print("==固件版本==");
+        u8g2.setCursor(8, 16);u8g2.print("==firmware version==");
         u8g2.setCursor(40, 48);u8g2.print("V1.20");
       } else {
         u8g2.setCursor(6, 16);u8g2.print("www.ykniot.cn");

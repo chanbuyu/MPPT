@@ -26,7 +26,10 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* clock=*/22, /* data=*/21, /
 TaskHandle_t Core2;                                                                                        //SYSTEM PARAMETER  - Used for the ESP32 dual core operation
 Adafruit_ADS1015 ads;
 #include <time.h>
+#include <ArduinoHA.h>
 #define timezone 8
+#define ADDR 0b0100011    // 0x23
+
 
 //====================================== 位图数组 ===================================================//
 //下面为电压电流等图标//
@@ -114,6 +117,28 @@ int count = 0;            //时间计数
 bool WIFI_Status = true;  //WIFI状态标志位
 long lastMsg = 0;         // 记录上一次发送信息的时长
 
+const char* ssid = "Xiaomi_1303";
+const char* password = "12345678";
+const char* mqtt_server = "175.178.105.64";
+const char* mqtt_user = "admin";
+const char* mqtt_pass = "test112211";
+const char* manufacturer = "ArduinoHA.h";
+const char* device_name = "MPPT";
+
+WiFiClient client;
+HADevice device(device_name);
+HAMqtt mqtt(client, device);
+unsigned long lastUpdateAt = 0;
+
+// "myAnalogInput" is unique ID of the sensor. You should define your own ID.
+HASensorNumber analogSensor_powerInput("analogSensor_powerInput", HASensorNumber::PrecisionP1);
+HASensorNumber analogSensor_PWM("analogSensor_PWM", HASensorNumber::PrecisionP1);
+HASensorNumber analogSensor_voltageInput("analogSensor_voltageInput", HASensorNumber::PrecisionP1);
+HASensorNumber analogSensor_voltageOutput("analogSensor_voltageOutput", HASensorNumber::PrecisionP1);
+HASensorNumber analogSensor_currentInput("analogSensor_currentInput", HASensorNumber::PrecisionP1);
+HASensorNumber analogSensor_currentOutput("analogSensor_currentOutput", HASensorNumber::PrecisionP1);
+
+
 //====================================== USER PARAMETERS ==========================================//
 //下面的参数是没有MPPT充电器设置时使用的默认参数 //
 //通过 LCD 菜单界面或手机 WiFi 应用程序设置或保存。这里的一些参数//
@@ -132,7 +157,7 @@ bool
   overrideFan            = 0,           //   USER PARAMETER - 风扇始终开启
   enableDynamicCooling   = 0;  //   USER PARAMETER - 启用 PWM 冷却控制
 int
-  serialTelemMode        = 0,            //  USER PARAMETER - 选择串行遥测数据馈送（0 - 禁用串行，1 - 显示所有数据，2 - 显示基本，3 - 仅数字）
+  serialTelemMode        = 2,            //  USER PARAMETER - 选择串行遥测数据馈送（0 - 禁用串行，1 - 显示所有数据，2 - 显示基本，3 - 仅数字）
   enableMos              = 0,                  //  USER PARAMETER - 启用输出MOS模式(0 -关闭， 1 -开启， 2 -自动)
   pwmResolution          = 11,             //  USER PARAMETER - PWM 位分辨率
   pwmFrequency           = 39000,           //  USER PARAMETER - PWM 开关频率 - Hz（用于降压）
@@ -192,7 +217,7 @@ float
 //您可以访问这些变量来获取您的模组所需的数据。//
 //=================================================================================================//
 bool
-  buckEnable            = 0,           // SYSTEM PARAMETER - Buck Enable Status
+  buckEnable            = 1,           // SYSTEM PARAMETER - Buck Enable Status
   enableMosen           = 0,          //  USER PARAMETER - 启用输出MOS状态(0 -关闭， 1 -开启)
   fanStatus             = 0,            // SYSTEM PARAMETER - Fan activity status (1 = On, 0 = Off)
   bypassEnable          = 0,         // SYSTEM PARAMETER -
@@ -513,15 +538,15 @@ void setup() {
   if (enableLCD == 1) {
     u8g2.begin();
     u8g2.enableUTF8Print();
-    u8g2.setFont(u8g2_font_5x8_tn);  // 设置字体
+    u8g2.setFont(u8g2_font_unifont_t_chinese2);  // 设置字体
     u8g2.setFontDirection(0);       //设置屏方向
     u8g2.clearBuffer();
     u8g2.setCursor(18, 16);
-    u8g2.print("MPPT-控制器");
+    u8g2.print("MPPT-controler");
     u8g2.setCursor(40, 38);
     u8g2.print("V1.20");
     u8g2.setCursor(26, 60);
-    u8g2.print("谢谢使用!");
+    u8g2.print("thanks!");
     u8g2.sendBuffer();
     delay(2000);
   }
@@ -534,19 +559,22 @@ void setup() {
         u8g2.drawFrame(9, 25, 103, 15);
         u8g2.drawBox(12, 27, i * 4, 11);
         u8g2.setCursor(24, 15);
-        u8g2.print("系统启动中");
+        u8g2.print("system booting");
       } while (u8g2.nextPage());
     }
   }
+
+  mqtt_setup();
 }
 //================== CORE1: LOOP (DUAL CORE MODE) ======================//
 void loop() {
   Read_Sensors();        //TAB#2 - Sensor data measurement and computation
-  Device_Protection();   //TAB#3 - Fault detection algorithm
+  // Device_Protection();   //TAB#3 - Fault detection algorithm
   System_Processes();    //TAB#4 - Routine system processes
   Charging_Algorithm();  //TAB#5 - Battery Charging Algorithm
   Onboard_Telemetry();   //TAB#6 - Onboard telemetry (USB & Serial Telemetry)
   LCD_Menu();            //TAB#8 - Low Power Algorithm
   Out_Mosfet();          //TAB#9 - 输出MOS控制
   dnsserver.processNextRequest();
+  mqtt_loop();
 }
