@@ -107,12 +107,7 @@ static const unsigned char tbxl[] U8X8_PROGMEM = { 0x00, 0x00, 0x00, 0x00, 0x00,
 //========================================= 以下为MQTT、dns、AP模式程序==============================================//
 
 //=====================================================================================================//
-//const char* mqtt_server = "cqykn.qicp.vip";
-//const char* topic = "esp32/kzq";
-//const char* client_id = "esp3220221111";  // 标识当前设备的客户端编号，随便填
-//const int mqtt_port = 1883;
-//WiFiClient espClient;
-//PubSubClient client(espClient);
+
 int count = 0;            //时间计数
 bool WIFI_Status = true;  //WIFI状态标志位
 long lastMsg = 0;         // 记录上一次发送信息的时长
@@ -125,18 +120,21 @@ const char* mqtt_pass = "test112211";
 const char* manufacturer = "ArduinoHA.h";
 const char* device_name = "MPPT";
 
+// mqtt home assistant 初始化
 WiFiClient client;
 HADevice device(device_name);
 HAMqtt mqtt(client, device);
 unsigned long lastUpdateAt = 0;
 
 // "myAnalogInput" is unique ID of the sensor. You should define your own ID.
-HASensorNumber analogSensor_powerInput("analogSensor_powerInput", HASensorNumber::PrecisionP1);
-HASensorNumber analogSensor_PWM("analogSensor_PWM", HASensorNumber::PrecisionP1);
-HASensorNumber analogSensor_voltageInput("analogSensor_voltageInput", HASensorNumber::PrecisionP1);
-HASensorNumber analogSensor_voltageOutput("analogSensor_voltageOutput", HASensorNumber::PrecisionP1);
-HASensorNumber analogSensor_currentInput("analogSensor_currentInput", HASensorNumber::PrecisionP1);
-HASensorNumber analogSensor_currentOutput("analogSensor_currentOutput", HASensorNumber::PrecisionP1);
+HABinarySensor sensor_buckEnable("sensor_buckEnable");
+HASensorNumber analogSensor_powerInput("analogSensor_powerInput");
+HASensorNumber analogSensor_powerOutput("analogSensor_powerOutput");
+HASensorNumber analogSensor_PWM("analogSensor_PWM");
+HASensorNumber analogSensor_voltageInput("analogSensor_voltageInput");
+HASensorNumber analogSensor_voltageOutput("analogSensor_voltageOutput");
+HASensorNumber analogSensor_currentInput("analogSensor_currentInput");
+HASensorNumber analogSensor_currentOutput("analogSensor_currentOutput");
 
 
 //====================================== USER PARAMETERS ==========================================//

@@ -70,8 +70,8 @@ void Read_Sensors(){
   
   //POWER COMPUTATION - Through computation
   powerInput      = voltageInput*currentInput;                  //输入功率
-  powerOutput     = voltageInput*currentInput*efficiencyRate;   //输出功率
-  //powerOutput     = voltageOutput*loadcurrentOutput;   //输出功率
+  //powerOutput     = voltageInput*currentInput*efficiencyRate;   //输出功率
+  powerOutput     = voltageOutput*loadcurrentOutput;   //输出功率
   outputDeviation = (voltageOutput/voltageBatteryMax)*100.000;  //输出电压偏差
   buckEfficiency  = powerOutput/powerInput * 100.000;
   buckEfficiency  = constrain(buckEfficiency,0,100);//限制效率百分比为0-100
