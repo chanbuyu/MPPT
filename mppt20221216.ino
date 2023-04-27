@@ -316,172 +316,6 @@ unsigned long
   loopTimeEnd           = 0,            //SYSTEM PARAMETER - 用于循环循环秒表，记录循环结束时间
   secondsElapsed        = 0;         //SYSTEM PARAMETER -
 
- String MPPT_Data(void) {
-  const char* fanStatus1 = "";
-  const char* enableMos1 = "";
-  if (fanStatus == 1) {
-    fanStatus1 = "开";
-  } else {
-    fanStatus1 = "关";
-  }
-
-  if (enableMos == 1) {
-    enableMos1 = "开";
-  } else if (enableMos == 0) {
-    enableMos1 = "关";
-  } else if (enableMos == 2) {
-    enableMos1 = "自动";
-  }
-
-  // 数据打包为一个HTML显示代码
-  String dataBuffer = "<p>";
-  dataBuffer += "<h2>运行数据</h2>";
-  dataBuffer += "<b>输入电压: </b>";
-  dataBuffer += String(voltageInput);
-  dataBuffer += "<b>V</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>输入电流: </b>";
-  dataBuffer += String(currentInput);
-  dataBuffer += "<b>A</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>电池电压: </b>";
-  dataBuffer += String(voltageOutput);
-  dataBuffer += "<b>V</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>电池容量: </b>";
-  dataBuffer += String(batteryPercent);
-  dataBuffer += "<b>%</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>充电电流: </b>";
-  dataBuffer += String(currentOutput);
-  dataBuffer += "<b>A</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>负载输出电流: </b>";
-  dataBuffer += String(loadcurrentOutput);
-  dataBuffer += "<b>A</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>BUCK效率: </b>";
-  dataBuffer += String(buckEfficiency);
-  dataBuffer += "<b>%</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>控制器温度: </b>";
-  dataBuffer += String(temperature);
-  dataBuffer += "<b>℃</b>";
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>风扇状态: </b>";
-  dataBuffer += String(fanStatus1);
-  dataBuffer += "<br/>";
-  dataBuffer += "<b>负载输出状态: </b>";
-  dataBuffer += String(enableMos1);
-  dataBuffer += "<br /></p>";
-  return dataBuffer;  // 最后要将数组返回出去
-}
-
-void Out_Mosfet_sw(AsyncWebServerRequest* request) {
-  String state = request->getParam("outmos")->value();
-  if (state == "on") {
-    Out_MOSFET_Enable();
-  } else if (state == "off") {
-    Out_MOSFET_Disable();
-  } else if (state == "auto") {
-    Out_MOSFET_zt();
-  }
-  request->send(200, "text/plain", "OK");  // 发送接收成功标志符
-  }
-
-//==============================================以下为HTML代码========================================//
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-<title>ESP32-MPPT控制器管理系统V1.20</title>
-</head>
-<body>
-	<h1>ESP32-MPPT控制器V1.20</h1>
-	<!-- 创建一个ID位mppt的盒子用于显示获取到的数据 -->
-	<div id="mppt"></div>
-	<button onclick="sw()"> 打开 </button>
-  <button onclick="sw1()"> 关闭 </button>
-  <button onclick="sw2()"> 自动 </button>
-  <h3>wifi 密码配置</h3>
-  <div>
-        <label for="name">wifi名称</label>
-        <input type="text" id="wifi" name="car_name" placeholder="ssid">
-        <br>
-        <label for="type">密&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp码</label>
-        <input type="text" id="code" name="car_type" placeholder="password">
-        <br>
-        <button id ="send_WIFI" type="button" onclick="send_wifi()">提交</button>
-  </div>
-</body>
-<script>
-function setpath() {
-    var default_path = document.getElementById("newfile").files[0].name;
-    document.getElementById("filepath").value = default_path;
-}
-
-function send_wifi() {
-    var input_ssid = document.getElementById("wifi").value;
-    var input_code = document.getElementById("code").value;
-    var pw = new XMLHttpRequest();
-        pw.open("POST", "/wifi_data", true);
-        pw.onreadystatechange = function() {
-            if (pw.readyState == 4) {
-                if (pw.status == 200) {
-                    console.log(pw.responseText);
-                } else if (pw.status == 0) {
-                    alert("Server closed the connection abruptly!");
-                    location.reload()
-                } else {
-                    alert(pw.status + " Error!\n" + pw.responseText);
-                    location.reload()
-                }
-            }
-        };
-    var data = {
-        "wifi_name":input_ssid,
-        "wifi_code":input_code
-    }
-        pw.send(JSON.stringify(data));
-}
-
-	// 按下按钮会运行这个JS函数
-	function sw() {
-    var payload = "on"; // 需要发送的内容
-		// 通过get请求给 /sw
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "/sw?outmos=" + payload, true);
-		xhr.send();
-	}
-  	function sw1() {
-    var payload = "off"; // 需要发送的内容
-		// 通过get请求给 /sw
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "/sw?outmos=" + payload, true);
-		xhr.send();
-	}
-    	function sw2() {
-    var payload = "auto"; // 需要发送的内容
-		// 通过get请求给 /sw
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "/sw?outmos=" + payload, true);
-		xhr.send();
-	}
-	// 设置一个定时任务, 1000ms执行一次
-	setInterval(function () {
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				// 此代码会搜索ID为mppt的组件，然后使用返回内容替换组件内容
-				document.getElementById("mppt").innerHTML = this.responseText;
-			}
-		};
-		// 使用GET的方式请求 /mppt
-		xhttp.open("GET", "/mppt", true);
-		xhttp.send();
-	}, 1000)
-</script>)rawliteral";
 
 
 //===============================主程序============================================================//
@@ -494,7 +328,8 @@ function send_wifi() {
 
 //================= CORE0: SETUP (DUAL CORE MODE) =====================//
 void coreTwo(void* pvParameters) {
-    connect_wifi(); //TAB#7 - WiFi Initialization
+    //connect_wifi(); //TAB#7 - WiFi Initialization
+    mqtt_setup();
 while (1) {
     Wireless_Telemetry();                                   //TAB#7 - Wireless telemetry (WiFi & Bluetooth)
   }
@@ -532,23 +367,8 @@ void setup() {
   //INITIALIZE AND LIOAD FLASH MEMORY DATA
   EEPROM.begin(eeprom_size);
   initializeFlashAutoload();  //Load stored settings from flash memory
-  //以下为1306初始化程序
-  if (enableLCD == 1) {
-    u8g2.begin();
-    u8g2.enableUTF8Print();
-    u8g2.setFont(u8g2_font_unifont_t_chinese2);  // 设置字体
-    u8g2.setFontDirection(0);       //设置屏方向
-    u8g2.clearBuffer();
-    u8g2.setCursor(18, 16);
-    u8g2.print("MPPT-controler");
-    u8g2.setCursor(40, 38);
-    u8g2.print("V1.20");
-    u8g2.setCursor(26, 60);
-    u8g2.print("thanks!");
-    u8g2.sendBuffer();
-    delay(2000);
-  }
-  //以下为进度条程序
+
+  // 开机进度条
   if (enableLCD == 1) {
     u8g2.firstPage();
     int i;
@@ -557,22 +377,20 @@ void setup() {
         u8g2.drawFrame(9, 25, 103, 15);
         u8g2.drawBox(12, 27, i * 4, 11);
         u8g2.setCursor(24, 15);
-        u8g2.print("system booting");
+        u8g2.print("Booting");
       } while (u8g2.nextPage());
     }
   }
 
-  mqtt_setup();
 }
 //================== CORE1: LOOP (DUAL CORE MODE) ======================//
 void loop() {
-  Read_Sensors();        //TAB#2 - Sensor data measurement and computation
+  //Read_Sensors();        //TAB#2 - Sensor data measurement and computation
   // Device_Protection();   //TAB#3 - Fault detection algorithm
   System_Processes();    //TAB#4 - Routine system processes
   Charging_Algorithm();  //TAB#5 - Battery Charging Algorithm
   Onboard_Telemetry();   //TAB#6 - Onboard telemetry (USB & Serial Telemetry)
   LCD_Menu();            //TAB#8 - Low Power Algorithm
   Out_Mosfet();          //TAB#9 - 输出MOS控制
-  dnsserver.processNextRequest();
-  mqtt_loop();
+  //dnsserver.processNextRequest();
 }
